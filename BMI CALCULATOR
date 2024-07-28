@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="container"></div>
+
+    <script type="text/babel">
+        // Define the BMI Calculator component
+        function BMICalculator() {
+            const [weight, setWeight] = React.useState('');
+            const [height, setHeight] = React.useState('');
+            const [bmi, setBmi] = React.useState(null);
+
+            const calculateBMI = () => {
+                const weightValue = parseFloat(weight);
+                const heightValue = parseFloat(height) / 100; // Convert cm to meters
+
+                if (isNaN(weightValue) || isNaN(heightValue) || heightValue <= 0) {
+                    alert('Please enter valid values for weight and height.');
+                    return;
+                }
+
+                const bmiValue = weightValue / (heightValue * heightValue);
+                setBmi(bmiValue.toFixed(2));
+            };
+
+            return (
+                <div>
+                    <h1>BMI Calculator</h1>
+                    <label>
+                        Weight (kg):
+                        <input 
+                            type="number" 
+                            value={weight} 
+                            onChange={(e) => setWeight(e.target.value)}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Height (cm):
+                        <input 
+                            type="number" 
+                            value={height} 
+                            onChange={(e) => setHeight(e.target.value)}
+                        />
+                    </label>
+                    <br />
+                    <button onClick={calculateBMI}>Calculate BMI</button>
+                    {bmi !== null && (
+                        <div className="result">
+                            <p>Your BMI is {bmi}</p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Render the BMICalculator component to the DOM
+        ReactDOM.render(<BMICalculator />, document.getElementById('root'));
+    </script>
+</body>
+</html>
